@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Event Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+      form {
+        width: 300px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      p {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Edit Event</h1>
+
+    <p>
+      Use this page to change the time and venue you want the bot to book events
+    </p>
+
+    <form method="POST" action="/save">
+      <label for="time">Time:</label>
+      <select name="time" id="time">
+        <option value="5:30PM">5:30 PM</option>
+        <option value="6:00PM">6:00 PM</option>
+      </select>
+      <br />
+      <label for="time2">Time 2</label>
+      <select name="time2" id="time2">
+        <option value="5:30PM">5:30 PM</option>
+        <option value="6:00PM">6:00 PM</option>
+      </select>
+      <br />
+      <label for="venue">Venue:</label>
+      <select name="venue" id="venue">
+        <option value="Burleson-East">Burleson-East</option>
+        <option value="Burleson-West">Burleson-West</option>
+        <option value="Caruth-East">Caruth-East</option>
+        <option value="Caruth-West">Caruth-West</option>
+        <option value="Curtis-East">Curtis-East</option>
+        <option value="Curtis-West">Curtis-West</option>
+        <option value="Germany-East">Germany-East</option>
+        <option value="Germany-West">Germany-West</option>
+        <option value="Smith-East">Smith-East</option>
+        <option value="Smith-West">Smith-West</option>
+      </select>
+      <br />
+      <button type="submit">Save Changes</button>
+    </form>
+  </body>
+</html>
