@@ -2,16 +2,18 @@ import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 import time
 
 
 def scraper():
     url = "https://secure.rec1.com/TX/up-tx/catalog"
 
-    driver = webdriver.Firefox()
+    driver = webdriver.Chrome()
     # make it headless
 
-    options = webdriver.FirefoxOptions()
+    options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
 
     driver.implicitly_wait(3)
@@ -89,7 +91,14 @@ def scraper():
         20: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[4]/a[1]",
         21: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[5]/a[1]",
     }
-    driver.implicitly_wait(10)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/span[2]",
+            )
+        )
+    )
     # login
     login = driver.find_element(
         By.XPATH,
@@ -109,14 +118,29 @@ def scraper():
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/ul[1]/li[1]/form[1]/div[4]/div[1]/button[1]/span[1]",
     ).click()
 
-    driver.implicitly_wait(5)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[1]/div[1]/div[1]/div[4]/div[1]/div[1]/span[1]",
+            )
+        )
+    )
+    time.sleep(3)
     # click on reservations
     driver.find_element(
         By.XPATH,
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[1]/div[1]/div[1]/div[4]/div[1]/div[1]/span[1]",
     ).click()
 
-    driver.implicitly_wait(8)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[3]/div[2]",
+            )
+        )
+    )
 
     # click on tennis
     driver.find_element(
@@ -124,15 +148,29 @@ def scraper():
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[3]/div[2]",
     ).click()
 
-    driver.implicitly_wait(3)
-
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[2]/div[1]/button[2]/span[1]",
+            )
+        )
+    )
+    time.sleep(3)
     # click on list view
     driver.find_element(
         By.XPATH,
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[2]/div[1]/button[2]/span[1]",
     ).click()
 
-    driver.implicitly_wait(3)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[6]/div[1]/div[1]/div[2]/span[2]/span[1]/input[1]",
+            )
+        )
+    )
     # change the time
 
     xpath_to_click = ""
@@ -172,22 +210,33 @@ def scraper():
     el.send_keys(date1)
     """
 
-    driver.implicitly_wait(3)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, xpath_to_click))
+    )
     driver.find_element(By.XPATH, xpath_to_click).click()
-
-    driver.implicitly_wait(5)
 
     # get today's date
     today = time.localtime(time.time())
     today = today.tm_mday
 
-    today = today + 1
+    today = today
     print(today)
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, checkout_dates[today]))
+    )
 
     driver.find_element(By.XPATH, checkout_dates[today]).click()
     # driver.find_element(By.PARTIAL_LINK_TEXT)
 
-    driver.implicitly_wait(3)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[6]/div[1]/div[1]/div[2]/span[2]/span[1]/input[1]",
+            )
+        )
+    )
 
     five_thirty = "/html[1]/body[1]/div[17]/div[2]/div[9]"
     six_oclock = "/html[1]/body[1]/div[17]/div[2]/div[10]"
@@ -198,11 +247,11 @@ def scraper():
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[1]",
     ).click()
 
-    driver.implicitly_wait(2)
+    time.sleep(3)
 
     first_date = "div[class='selectmenu-items notranslate open'] div[title='05:30 PM']"
     second_date = "div[class='selectmenu-items notranslate open'] div[title='06:00 PM']"
-    test_date = "div[class='selectmenu-items notranslate open'] div[title='06:30 PM']"
+    test_date = "div[class='selectmenu-items notranslate open'] div[title='03:00 PM']"
 
     try:
         driver.find_element(
@@ -218,27 +267,66 @@ def scraper():
         driver.implicitly_wait(7)
         driver.quit()
 
-    driver.implicitly_wait(2)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[4]/div[1]/button[1]",
+            )
+        )
+    )
+    time.sleep(3)
 
     driver.find_element(
         By.XPATH,
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[4]/div[1]/button[1]",
     ).click()
 
-    driver.implicitly_wait(5)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/div[9]/div[1]/div[2]/table[1]/tbody[1]/tr[2]/td[1]/a[1]/span[1]",
+            )
+        )
+    )
+    time.sleep(3)
 
     driver.find_element(
         By.XPATH,
         "/html[1]/body[1]/div[9]/div[1]/div[2]/table[1]/tbody[1]/tr[2]/td[1]/a[1]/span[1]",
     ).click()
 
-    driver.implicitly_wait(5)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (
+                By.XPATH,
+                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[8]/div[2]/div[1]/button[1]/span[1]",
+            )
+        )
+    )
+    time.sleep(3)
     # click review and confirm
 
     driver.find_element(
         By.XPATH,
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[8]/div[2]/div[1]/button[1]/span[1]",
     ).click()
+
+    time.sleep(3)
+
+    # finalise the order
+
+    driver.find_element(
+        By.XPATH,
+        "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[8]/div[2]/div[1]/button[1]/span[1]",
+    ).click()
+
+    # screenshot
+
+    driver.save_screenshot("order")
+
+    time.sleep(25)
 
 
 scraper()
