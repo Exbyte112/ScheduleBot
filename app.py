@@ -49,5 +49,15 @@ def save_changes():
 
   # Return success message as JSON
   return render_template("save.html", data=data)
+
+import os
+# clear the terminal
+os.system('cls' if os.name == 'nt' else 'clear')
+
+print("\n\nHold ctrl and click the link below to open the web page\n\n")
+
+print("http://127.0.0.1:5000/")
+
+
 if __name__ == "__main__":
   app.run(debug=True)

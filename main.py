@@ -5,6 +5,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import time
+from win10toast import ToastNotifier
+
+
+toast = ToastNotifier()
 
 
 def scraper():
@@ -15,6 +19,9 @@ def scraper():
 
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
+    # make it headless
+    options.add_argument("--headless")
+    options.add_experimental_option("detach", True)
 
     driver.implicitly_wait(3)
 
@@ -28,8 +35,8 @@ def scraper():
     with open("data.json", "r") as f:
         data = json.load(f)
 
-    time1 = data["time"]
-    time2 = data["time2"]
+    timei = data["time"]
+    timeii = data["time2"]
     venue = data["venue"]
     date1 = "04/15/2024"
 
@@ -84,12 +91,31 @@ def scraper():
     }
 
     checkout_dates = {
+        7: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[3]/a[1]",
+        8: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[4]/a[1]",
+        9: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[5]/a[1]",
+        10: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[6]/a[1]",
+        11: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[7]/a[1]",
+        12: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[1]/a[1]",
+        13: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[2]/a[1]",
+        14: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[3]/a[1]",
+        15: "/html[1]/body[1]/div[14]/div[2]/div[1]/div[3]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[4]/a[1]",
         16: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[7]/a[1]",
         17: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[1]/a[1]",
         18: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[2]/a[1]",
         19: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[3]/a[1]",
         20: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[4]/a[1]",
         21: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[5]/a[1]",
+        22: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[6]/a[1]",
+        23: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[4]/td[7]/a[1]",
+        24: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[1]/a[1]",
+        25: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[2]/a[1]",
+        26: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[3]/a[1]",
+        27: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[4]/a[1]",
+        28: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[5]/a[1]",
+        29: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[6]/a[1]",
+        30: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[5]/td[7]/a[1]",
+        31: "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[6]/td[1]/a[1]",
     }
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
@@ -218,14 +244,26 @@ def scraper():
     # get today's date
     today = time.localtime(time.time())
     today = today.tm_mday
+    month = time.localtime(time.time())
+    month = month.tm_mon
 
-    today = today
+    if month == 2:
+        if today > 28:
+            today = today - 28
+    elif month == 4 or month == 6 or month == 9 or month == 11:
+        if today > 30:
+            today = today - 30
+    else:
+        if today > 31:
+            today = today - 31
+
+    today += 2
+
     print(today)
 
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, checkout_dates[today]))
-    )
+    time.sleep(3)
 
+    # click on calendar date
     driver.find_element(By.XPATH, checkout_dates[today]).click()
     # driver.find_element(By.PARTIAL_LINK_TEXT)
 
@@ -242,30 +280,43 @@ def scraper():
     six_oclock = "/html[1]/body[1]/div[17]/div[2]/div[10]"
     six_thirty = "/html[1]/body[1]/div[26]/div[2]/div[9]"
 
+    time.sleep(3)
+
+    # click on time
     driver.find_element(
         By.XPATH,
         "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[7]/div[4]/div[2]/div[2]/div[5]/div[10]/div[3]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[1]/div[1]/div[1]/span[1]",
     ).click()
 
     time.sleep(3)
-
-    first_date = "div[class='selectmenu-items notranslate open'] div[title='05:30 PM']"
-    second_date = "div[class='selectmenu-items notranslate open'] div[title='06:00 PM']"
-    test_date = "div[class='selectmenu-items notranslate open'] div[title='03:00 PM']"
+    
+    first_time = f"div[class='selectmenu-items notranslate open'] div[title='{timei}']"
+    second_time = f"div[class='selectmenu-items notranslate open'] div[title='{timeii}']"
+    test_time = "div[class='selectmenu-items notranslate open'] div[title='06:30 PM']"
+    
 
     try:
-        driver.find_element(
-            By.CSS_SELECTOR,
-            test_date,
-        ).click()
+        if driver.find_element(By.CSS_SELECTOR, first_time):
+            driver.find_element(By.CSS_SELECTOR, first_time).click()
+        elif driver.find_element(By.CSS_SELECTOR, second_time):
+            driver.find_element(By.CSS_SELECTOR, second_time).click()
     except:
-        # if the time is not found send a system notification
-        print("Time not found")
-        import os
+        try:
+            el = driver.find_element(By.CSS_SELECTOR, test_time)
+            if el:
+                print("no time found")
+                driver.find_element(By.CSS_SELECTOR, test_time).click()
+        except:
+            print("no time found")
+            print("No time found")
+            print("No time found")
+            driver.quit()
 
-        os.system("notify-send 'Time not found'")
-        driver.implicitly_wait(7)
-        driver.quit()
+            # send a message to the user
+            print("No time found")
+            toast.show_toast(
+                "Scheduler Bot", "Couldn't set time, Slots already taken", duration=30
+            )
 
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
@@ -324,7 +375,7 @@ def scraper():
 
     # screenshot
 
-    driver.save_screenshot("order")
+    driver.save_screenshot("order.png")
 
     time.sleep(25)
 
